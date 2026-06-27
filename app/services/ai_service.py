@@ -8,13 +8,16 @@ client = OpenAI(
     ),
 )
 
+MODEL_NAME = os.getenv(
+    "MODEL_NAME",
+    "poolside/laguna-xs.2:free"
+)
 
-def ask_ai(
-    prompt: str
-):
+
+def ask_ai(prompt: str):
 
     response = client.chat.completions.create(
-        model="poolside/laguna-xs.2:free",
+        model=MODEL_NAME,
         messages=[
             {
                 "role": "user",
@@ -25,17 +28,41 @@ def ask_ai(
 
     return response.choices[0].message.content
 
-def generate_summary(
-    text: str
-):
+
+def generate_summary(text: str):
 
     prompt = f"""
-    Summarize the following study material.
+You are an expert academic study assistant.
 
-    {text[:20000]}
-    """
+Task:
+Create a concise but comprehensive summary of the provided study material.
+
+Rules:
+- Use ONLY information from the document.
+- Do not invent information.
+- Organize content logically.
+- Use headings where appropriate.
+- Highlight the most important concepts.
+- Keep explanations easy to understand.
+- Do not include unnecessary introductions.
+
+Format:
+
+OVERVIEW
+
+KEY CONCEPTS
+
+IMPORTANT DETAILS
+
+FINAL TAKEAWAYS
+
+DOCUMENT:
+
+{text[:20000]}
+"""
 
     return ask_ai(prompt)
+
 
 def ask_document(
     document: str,
@@ -58,45 +85,200 @@ Provide a clear and concise answer.
 
     return ask_ai(prompt)
 
+
 def generate_flashcards(
-    document: str
+    document: str,
+    difficulty="medium",
+    count=10
 ):
 
     prompt = f"""
-    Create 10 study flashcards from the document.
+You are an expert study assistant.
 
-    Return them in this format:
+Create exactly {count} high-quality flashcards.
 
-    Q: Question
-    A: Answer
+Difficulty Level: {difficulty}
 
-    DOCUMENT:
+Rules:
+- Use only information from the document.
+- Questions should test understanding.
+- Answers should be concise.
+- Do not use markdown.
+- Do not use bullet points.
+- Follow the format exactly.
 
-    {document[:20000]}
-    """
+Format:
+
+FLASHCARD 1
+
+Question:
+...
+
+Answer:
+...
+
+FLASHCARD 2
+
+Question:
+...
+
+Answer:
+...
+
+DOCUMENT:
+
+{document[:20000]}
+"""
 
     return ask_ai(prompt)
 
+
 def generate_quiz(
+    document: str,
+    difficulty="medium",
+    count=10
+):
+
+    prompt = f"""
+Generate exactly {count} multiple-choice questions.
+
+Difficulty Level: {difficulty}
+
+Rules:
+- Use only information from the document.
+- Four choices per question.
+- No explanations.
+- Make questions educational and exam-like.
+- Provide four choices for every question.
+- Provide exactly one correct answer.
+- Do not add explanations.
+
+Format exactly:
+
+QUESTION 1
+A)
+B)
+C)
+D)
+
+Correct Answer:
+
+QUESTION 2
+A)
+B)
+C)
+D)
+
+Correct Answer:
+
+DOCUMENT:
+
+{document[:20000]}
+"""
+
+    return ask_ai(prompt)
+
+
+def generate_study_guide(
     document: str
 ):
 
     prompt = f"""
-    Generate 10 multiple-choice questions.
+Create a complete study guide.
 
-    Format:
+Rules:
+- Use only information from the document.
+- Organize content clearly.
+- Focus on exam preparation.
+- Do not add outside knowledge.
 
-    Question:
-    A)
-    B)
-    C)
-    D)
+Format:
 
-    Correct Answer:
+CHAPTER OVERVIEW
 
-    DOCUMENT:
+KEY CONCEPTS
 
-    {document[:20000]}
-    """
+IMPORTANT DEFINITIONS
+
+EXAMPLES
+
+COMMON EXAM TOPICS
+
+PRACTICE QUESTIONS
+
+DOCUMENT:
+
+{document[:20000]}
+"""
+
+    return ask_ai(prompt)
+
+
+def generate_exam(
+    document: str,
+    difficulty="medium"
+):
+
+    prompt = f"""
+Create a complete examination paper.
+
+Difficulty Level: {difficulty}
+
+Rules:
+- Use only the document.
+- Make questions educational and realistic.
+- Do not provide solutions.
+- Follow the format exactly.
+
+Format:
+
+PART A - MULTIPLE CHOICE
+
+PART B - TRUE OR FALSE
+
+PART C - SHORT ANSWER
+
+PART D - ESSAY QUESTIONS
+
+DOCUMENT:
+
+{document[:20000]}
+"""
+
+    return ask_ai(prompt)
+
+
+def generate_revision_notes(
+    document: str
+):
+
+    prompt = f"""
+Create concise revision notes.
+
+Rules:
+- Use only the document.
+- Focus on high-value exam content.
+- Keep notes compact.
+- Highlight important facts.
+- Do not add outside information.
+
+Format:
+
+MUST KNOW CONCEPTS
+
+IMPORTANT DEFINITIONS
+
+KEY FACTS
+
+IMPORTANT EXAMPLES
+
+EXAM TIPS
+
+LAST MINUTE REVISION
+
+DOCUMENT:
+
+{document[:20000]}
+"""
 
     return ask_ai(prompt)

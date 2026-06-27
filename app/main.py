@@ -9,8 +9,71 @@ from app.routes.chat import router as chat_router
 from app.routes.summary import router as summary_router
 from app.routes.quiz import router as quiz_router
 from app.routes.flashcards import router as flashcards_router
-from app.routes.debug import router as debug_router
+from app.routes.study_guide import router as study_guide_router
+from app.routes.exam import router as exam_router
+from app.routes.revision_notes import router as revision_notes_router
+from app.routes.export import router as export_router
+from app.routes.document import router as document_router
+from app.routes.history import (
+    router as history_router
+)
 
+
+from app.database.database import engine
+from app.database.models import Base
+from app.database.database import SessionLocal
+from app.database.models import Document
+
+import os
+
+from app.services import document_store
+from app.services.pdf_service import (
+    extract_text_from_pdf
+)
+
+def restore_active_document():
+
+    db = SessionLocal()
+
+    try:
+
+        active_document = (
+            db.query(Document)
+            .filter(
+                Document.is_active == True
+            )
+            .first()
+        )
+
+        if not active_document:
+            return
+
+        if not os.path.exists(
+            active_document.filepath
+        ):
+            return
+
+        text = extract_text_from_pdf(
+            active_document.filepath
+        )
+
+        document_store.current_document = text
+
+        document_store.current_filename = (
+            active_document.filename
+        )
+
+        print(
+            f"Loaded: {active_document.filename}"
+        )
+
+    finally:
+
+        db.close()
+
+Base.metadata.create_all(
+    bind=engine
+)
 
 app = FastAPI(
     title="StudyMate API",
@@ -26,6 +89,8 @@ Features:
 """,
     version="1.0.0"
 )
+
+restore_active_document()
 
 @app.get(
     "/health",
@@ -63,8 +128,33 @@ app.include_router(
 )
 
 app.include_router(
-    debug_router,
-    tags=["Debug"]
+    study_guide_router,
+    tags=["Study Guide"]
+)
+
+app.include_router(
+    exam_router,
+    tags=["Exam"]
+)
+
+app.include_router(
+    revision_notes_router,
+    tags=["Revision Notes"]
+)
+
+app.include_router(
+    export_router,
+    tags=["Export"]
+)
+
+app.include_router(
+    document_router,
+    tags=["Document"]
+)
+
+app.include_router(
+    history_router,
+    tags=["History"]
 )
 
 @app.get("/")
