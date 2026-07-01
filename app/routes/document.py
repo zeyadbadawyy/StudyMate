@@ -24,9 +24,6 @@ async def document_info():
         "filename": document_store.current_filename,
         "characters": len(
             document_store.current_document
-        ),
-        "estimated_pages": len(
-            document_store.current_document.split("\n")
         )
     }
 

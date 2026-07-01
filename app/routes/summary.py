@@ -10,6 +10,10 @@ from app.services.ai_service import generate_summary
 from app.services.history_service import (
     save_generation
 )
+from app.services.rag_service import (
+    get_generation_context
+)
+
 
 router = APIRouter()
 
@@ -24,8 +28,12 @@ async def summary(db: Session = Depends(get_db)):
             "No document uploaded"
         }
 
+    context = get_generation_context(
+        document_store.current_chunks
+    )
+
     result = generate_summary(
-        document_store.current_document
+        context
     )
 
     save_generation(
@@ -34,7 +42,7 @@ async def summary(db: Session = Depends(get_db)):
         content=result,
         document_name=document_store.current_filename
     )
-    
+
     return {
         "type": "summary",
         "content": result

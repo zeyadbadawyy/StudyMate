@@ -3,6 +3,9 @@ from pydantic import BaseModel
 
 from app.services import document_store
 from app.services.ai_service import ask_document
+from app.services.retrieval_service import (
+    retrieve_relevant_chunks
+)
 
 router = APIRouter()
 
@@ -21,8 +24,24 @@ async def chat(
             "error": "No PDF uploaded"
         }
 
+    relevant_chunks = (
+        retrieve_relevant_chunks(
+            document_store.current_chunks,
+            request.question
+        )
+    )
+
+    print(
+        f"Retrieved {len(relevant_chunks)} chunks"
+    )
+    
+
+    context = "\n\n".join(
+        relevant_chunks
+    )
+
     result = ask_document(
-        document_store.current_document,
+        context,
         request.question
     )
 

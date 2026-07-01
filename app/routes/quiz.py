@@ -10,6 +10,9 @@ from app.services.ai_service import generate_quiz
 from app.services.history_service import (
     save_generation
 )
+from app.services.rag_service import (
+    get_generation_context
+)
 
 from app.models.generation import GenerationRequest
 
@@ -27,8 +30,12 @@ async def quiz(
             "error": "No PDF uploaded"
         }
 
+    context = get_generation_context(
+        document_store.current_chunks
+    )
+        
     result = generate_quiz(
-        document_store.current_document,
+        context,
         request.difficulty,
         request.count
     )

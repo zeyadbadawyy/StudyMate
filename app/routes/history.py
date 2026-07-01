@@ -23,3 +23,22 @@ def get_history(
     )
 
     return history
+
+@router.delete(
+    "/history/clear"
+)
+def clear_history(
+    db: Session = Depends(
+        get_db
+    )
+):
+
+    db.query(
+        Generation
+    ).delete()
+
+    db.commit()
+
+    return {
+        "success": True
+    }

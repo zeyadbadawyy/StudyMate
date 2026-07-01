@@ -9,6 +9,9 @@ from app.services.ai_service import generate_flashcards
 from app.services.history_service import (
     save_generation
 )
+from app.services.rag_service import (
+    get_generation_context
+)
 
 from app.models.generation import GenerationRequest
 
@@ -26,9 +29,12 @@ async def flashcards(
             "error": "No PDF uploaded"
         }
 
+    context = get_generation_context(
+        document_store.current_chunks
+    )
+    
     result = generate_flashcards(
-        document_store.current_document,
-        request.difficulty,
+        context,
         request.count
     )
 

@@ -1,6 +1,8 @@
 from openai import OpenAI
 import os
 
+from app.services import chat_memory
+
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
     api_key=os.getenv(
@@ -69,26 +71,58 @@ def ask_document(
     question: str
 ):
 
-    prompt = f"""
-You are a study assistant.
+    history = ""
 
-Use ONLY the provided document to answer.
+    for message in (
+        chat_memory.conversation_history[-6:]
+    ):
+
+        history += (
+            f"{message['role']}: "
+            f"{message['content']}\n"
+        )
+
+    prompt = f"""
+You are StudyMate.
+
+Use ONLY the provided document context.
 
 DOCUMENT:
-{document[:20000]}
 
-QUESTION:
+{document}
+
+CONVERSATION HISTORY:
+
+{history}
+
+CURRENT QUESTION:
+
 {question}
 
-Provide a clear and concise answer.
+Provide a clear answer.
 """
 
-    return ask_ai(prompt)
+    answer = ask_ai(prompt)
+
+    chat_memory.conversation_history.append(
+        {
+            "role": "user",
+            "content": question
+        }
+    )
+
+    chat_memory.conversation_history.append(
+        {
+            "role": "assistant",
+            "content": answer
+        }
+    )
+
+    return answer
 
 
 def generate_flashcards(
     document: str,
-    difficulty="medium",
     count=10
 ):
 
@@ -96,8 +130,6 @@ def generate_flashcards(
 You are an expert study assistant.
 
 Create exactly {count} high-quality flashcards.
-
-Difficulty Level: {difficulty}
 
 Rules:
 - Use only information from the document.

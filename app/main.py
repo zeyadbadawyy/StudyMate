@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.upload import router as upload_router
 from app.routes.chat import router as chat_router
@@ -27,8 +28,11 @@ from app.database.models import Document
 import os
 
 from app.services import document_store
-from app.services.pdf_service import (
-    extract_text_from_pdf
+from app.services.file_service import (
+    extract_text
+)
+from app.services.chunk_service import (
+    chunk_text
 )
 
 def restore_active_document():
@@ -53,8 +57,12 @@ def restore_active_document():
         ):
             return
 
-        text = extract_text_from_pdf(
+        text = extract_text(
             active_document.filepath
+        )
+
+        document_store.current_chunks = (
+            chunk_text(text)
         )
 
         document_store.current_document = text
@@ -88,6 +96,16 @@ Features:
 - Question Answering
 """,
     version="1.0.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 restore_active_document()

@@ -10,6 +10,9 @@ from app.services.ai_service import generate_revision_notes
 from app.services.history_service import (
     save_generation
 )
+from app.services.rag_service import (
+    get_generation_context
+)
 
 router = APIRouter()
 
@@ -22,8 +25,12 @@ async def revision_notes(db: Session = Depends(get_db)):
             "error": "No PDF uploaded"
         }
 
+    context = get_generation_context(
+        document_store.current_chunks
+    )
+
     result = generate_revision_notes(
-        document_store.current_document
+        context
     )
 
     save_generation(
