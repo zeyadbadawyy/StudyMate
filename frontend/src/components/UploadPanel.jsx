@@ -96,7 +96,7 @@ function UploadPanel() {
 
   return (
     <div>
-      <h2>Upload Document</h2>
+      <h2>📄 Upload Document</h2>
 
       <input
         type="file"
@@ -104,7 +104,10 @@ function UploadPanel() {
           setFile(e.target.files[0])
         }
       />
-
+      <p className="upload-hint">
+        Supported file types:
+        PDF • DOCX • TXT
+      </p>
       <button
         disabled={!file}
         onClick={handleUpload}

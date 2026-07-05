@@ -18,7 +18,13 @@ from app.routes.document import router as document_router
 from app.routes.history import (
     router as history_router
 )
-
+from app.routes.settings import router as settings_router
+from app.routes.package import (
+    router as package_router
+)
+from app.routes.analytics import (
+    router as analytics_router
+)
 
 from app.database.database import engine
 from app.database.models import Base
@@ -173,6 +179,21 @@ app.include_router(
 app.include_router(
     history_router,
     tags=["History"]
+)
+
+app.include_router(
+    settings_router,
+    tags=["Settings"]
+)
+
+app.include_router(
+    package_router,
+    tags=["Package"]
+)
+
+app.include_router(
+    analytics_router,
+    tags=["Analytics"]
 )
 
 @app.get("/")

@@ -10,6 +10,12 @@ function HistoryPanel() {
 
   useEffect(() => {
 
+    fetchHistory();
+
+  }, []);
+
+  useEffect(() => {
+
     const refreshHistory =
       () => {
 
@@ -161,12 +167,12 @@ function HistoryPanel() {
   return (
     <div>
       <h2>
-        Generation History
+        📚 Generation History
       </h2>
 
       <button 
         className="history-delete"
-        disabled={loading}
+        disabled={loading || history.length === 0}
         onClick={
           clearHistory
         }

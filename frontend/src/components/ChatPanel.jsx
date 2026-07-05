@@ -19,6 +19,39 @@ function ChatPanel() {
   const messagesEndRef =
     useRef(null);
 
+  const [documentLoaded, setDocumentLoaded] =
+    useState(false);
+
+  useEffect(() => {
+
+    const checkDocument =
+      async () => {
+
+        try {
+
+          const response =
+            await api.get(
+              "/document/info"
+            );
+
+          setDocumentLoaded(
+            response.data.loaded
+          );
+
+        } catch {
+
+          setDocumentLoaded(
+            false
+          );
+
+        }
+
+      };
+
+    checkDocument();
+
+  }, []);
+
   useEffect(() => {
 
     messagesEndRef.current
@@ -31,11 +64,30 @@ function ChatPanel() {
   useEffect(() => {
 
     const reset =
-      () => {
+      async () => {
 
         setMessages([]);
 
         setQuestion("");
+
+        try {
+
+          const response =
+            await api.get(
+              "/document/info"
+            );
+
+          setDocumentLoaded(
+            response.data.loaded
+          );
+
+        } catch {
+
+          setDocumentLoaded(
+            false
+          );
+
+        }
 
       };
 
@@ -119,7 +171,7 @@ function ChatPanel() {
 
   return (
     <div>
-      <h2>Chat With Document</h2>
+      <h2>💬 Chat With Document</h2>
 
       <div className="chat-container">
         {messages.map(
@@ -169,7 +221,8 @@ function ChatPanel() {
           if (
             e.key ===
               "Enter" &&
-            !loading
+            !loading &&
+            documentLoaded
           ) {
             sendMessage();
           }
@@ -187,6 +240,7 @@ function ChatPanel() {
         }
         disabled={
           loading
+          || !documentLoaded
         }
       >
         Send

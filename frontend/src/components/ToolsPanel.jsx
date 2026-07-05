@@ -10,6 +10,9 @@ function ToolsPanel() {
 
   const [count, setCount] =
     useState(10);
+  
+  const [settings, setSettings] =
+    useState(null);
 
   const [result, setResult] =
     useState("");
@@ -17,12 +20,34 @@ function ToolsPanel() {
   const [loading, setLoading] =
     useState(false);
 
+  const [documentLoaded, setDocumentLoaded] =
+    useState(false);
+
   useEffect(() => {
 
     const reset =
-      () => {
+      async () => {
 
         setResult("");
+
+        try {
+
+          const response =
+            await api.get(
+              "/document/info"
+            );
+
+          setDocumentLoaded(
+            response.data.loaded
+          );
+
+        } catch {
+
+          setDocumentLoaded(
+            false
+          );
+
+        }
 
       };
 
@@ -38,6 +63,157 @@ function ToolsPanel() {
       );
 
   }, []);
+
+  useEffect(() => {
+
+    const checkDocument =
+      async () => {
+
+        try {
+
+          const response =
+            await api.get(
+              "/document/info"
+            );
+
+          setDocumentLoaded(
+            response.data.loaded
+          );
+
+        } catch {
+
+          setDocumentLoaded(
+            false
+          );
+
+        }
+
+      };
+
+    checkDocument();
+
+  }, []);
+
+  useEffect(() => {
+
+    const loadSettings =
+      async () => {
+
+        try {
+
+          const response =
+            await api.get(
+              "/settings"
+            );
+
+          const data =
+            response.data;
+
+          setSettings(data);
+
+          setDifficulty(
+            data.default_quiz_difficulty
+          );
+
+          setCount(
+            data.default_quiz_count
+          );
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+      };
+
+    loadSettings();
+
+  }, []);
+
+  useEffect(() => {
+
+    const refreshSettings =
+      async () => {
+
+        try {
+
+          const response =
+            await api.get(
+              "/settings"
+            );
+
+          const data =
+            response.data;
+
+          setSettings(data);
+
+          if (tool === "quiz") {
+
+            setDifficulty(
+              data.default_quiz_difficulty
+            );
+
+          }
+
+          if (tool === "exam") {
+
+            setDifficulty(
+              data.default_exam_difficulty
+            );
+
+          }
+
+          setCount(
+            data.default_quiz_count
+          );
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+      };
+
+    window.addEventListener(
+      "settingsUpdated",
+      refreshSettings
+    );
+
+    return () => {
+
+      window.removeEventListener(
+        "settingsUpdated",
+        refreshSettings
+      );
+
+    };
+
+  }, [tool]);
+  
+  useEffect(() => {
+
+    if (!settings)
+      return;
+
+    if (tool === "quiz") {
+
+      setDifficulty(
+        settings.default_quiz_difficulty
+      );
+
+    }
+
+    if (tool === "exam") {
+
+      setDifficulty(
+        settings.default_exam_difficulty
+      );
+
+    }
+
+  }, [tool, settings]);
 
   const generate = async () => {
     try {
@@ -156,7 +332,7 @@ function ToolsPanel() {
 
   return (
     <div>
-      <h2>AI Tools</h2>
+      <h2>✨ AI Tools</h2>
 
       <div>
         <label>
@@ -251,7 +427,7 @@ function ToolsPanel() {
       )}
 
       <button
-        disabled={loading}
+        disabled={loading || !documentLoaded}
         onClick={generate}
       >
         Generate

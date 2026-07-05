@@ -2,7 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  background: #f5f7fb;
+  background: #f8fafc;
 }
 
 .dashboard {
@@ -17,26 +17,56 @@ body {
 }
 
 .section {
+
   background: white;
-  padding: 20px;
-  border-radius: 12px;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  padding: 24px;
+
+  transition: 0.2s;
+
   margin-bottom: 20px;
 
   box-shadow:
     0 2px 10px
+    rgba(0,0,0,0.04);
+}
+
+.section:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 24px
     rgba(0,0,0,0.08);
 }
 
 .hero {
-  text-align: center;
+
+  padding: 40px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 8px 30px
+    rgba(0,0,0,0.05);
 
   margin-bottom: 30px;
 }
 
 .hero h1 {
-  margin-bottom: 10px;
 
-  font-size: 42px;
+  font-size: 48px;
+
+  font-weight: 700;
+
+  margin-bottom: 12px;
 }
 
 .hero p {
@@ -44,9 +74,47 @@ body {
 
   max-width: 700px;
 
-  margin: auto;
+  margin: -30px auto auto auto;
 
   line-height: 1.6;
+}
+
+.hero-logo {
+
+  width: 320px;
+
+  max-width: 90%;
+
+  height: auto;
+
+  display: block;
+
+  margin: 0 auto 20px;
+}
+
+.badge {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 6px 14px;
+
+  margin-bottom: 16px;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+
+  border: 1px solid #bfdbfe;
+
+  color: #2563eb;
+
+  font-size: 13px;
+
+  font-weight: 600;
 }
 
 button {
@@ -65,7 +133,13 @@ button {
 }
 
 button:hover {
-  transform: translateY(-1px);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 6px 18px
+    rgba(139, 171, 242, 0.25);
 }
 
 button:disabled {
@@ -163,7 +237,27 @@ pre {
 }
 
 .history-delete {
-  margin-bottom: 15px;
+
+  background: #ff0808;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 10px;
+
+  padding: 10px 16px;
+
+  font-weight: 600;
+
+  margin-left: 35%;
+
+  cursor: pointer;
+}
+
+.history-delete:hover {
+
+  opacity: 0.9;
 }
 
 .dashboard-grid {
@@ -265,7 +359,8 @@ summary:hover {
 
 }
 
-.empty-state {
+.empty-state,
+.export-panel {
 
   text-align: center;
 
@@ -304,4 +399,383 @@ summary:hover {
   margin-top: -8px;
 
   margin-bottom: 12px;
+}
+
+/* Custom style*/
+.section h2 {
+
+  display: inline-block;
+
+  padding: 8px 14px;
+
+  margin-top: 0;
+  margin-bottom: 18px;
+
+  border-radius: 999px;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 15px;
+
+  font-weight: 600;
+}
+
+.hero-top {
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+margin-bottom: 15px;
+}
+
+.theme-toggle {
+
+background: #111827;
+
+color: white;
+}
+
+.theme-toggle:hover {
+
+opacity: 0.9;
+}
+
+body.dark {
+
+background: #0f172a;
+
+color: #f8fafc;
+}
+
+body.dark .section,
+body.dark .hero,
+body.dark .history-card {
+
+background: #1e293b;
+
+color: #f8fafc;
+
+border-color: #334155;
+}
+
+body.dark .hero p {
+
+color: #cbd5e1;
+}
+
+body.dark input,
+body.dark textarea,
+body.dark select {
+
+background: #0f172a;
+
+color: white;
+
+border-color: #475569;
+}
+
+body.dark pre {
+
+background: #0f172a;
+
+color: #f8fafc;
+}
+
+body.dark button {
+
+  color: #e2e8f0;
+}
+
+body.dark summary {
+
+background: #334155;
+
+color: #f8fafc;
+}
+
+body.dark .empty-state {
+
+border-color: #475569;
+
+color: #cbd5e1;
+}
+
+body.dark .user-message {
+
+background: #2563eb;
+
+color: white;
+}
+
+body.dark .ai-message {
+
+background: #374151;
+
+color: white;
+}
+
+body.dark .badge {
+
+background: #1e3a8a;
+
+border-color: #3b82f6;
+
+color: #dbeafe;
+}
+
+body.dark .section h2 {
+
+background: #1e3a8a;
+
+color: #dbeafe;
+}
+
+body.dark .history-delete {
+  background: #ba0505;
+  color: white;
+}
+
+.hero-actions {
+
+  display: flex;
+
+  gap: 10px;
+}
+
+.settings-button {
+
+  min-width: 44px;
+}
+
+.modal-overlay {
+
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(
+    0,
+    0,
+    0,
+    0.5
+  );
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  z-index: 999;
+}
+
+.settings-modal {
+
+  background: white;
+
+  width: 500px;
+
+  max-width: 90%;
+
+  border-radius: 16px;
+
+  padding: 24px;
+}
+
+.settings-modal label {
+
+  display: block;
+
+  margin-top: 15px;
+
+  margin-bottom: 5px;
+
+  font-weight: 600;
+}
+
+.settings-modal select {
+
+  width: 100%;
+}
+
+.modal-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin-top: 24px;
+}
+
+.cancel-btn {
+
+  background: white;
+
+  color: black;
+
+  border: 1px solid #d1d5db;
+}
+
+.save-btn {
+
+  background: #087e33;
+
+  color: white;
+}
+
+body.dark .save-btn {
+
+  background: #1d137b;
+
+}
+body.dark .settings-modal {
+
+  background: #1e293b;
+
+  color: #f8fafc;
+}
+
+body.dark .cancel-btn {
+
+  background: #334155;
+
+  border-color: #475569;
+}
+
+.checkbox-row {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.checkbox-row label {
+
+  margin: 0;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.checkbox-row input {
+
+  width: 20px;
+
+  height: 20px;
+
+  cursor: pointer;
+
+  margin: 0;
+}
+
+.upload-hint {
+
+  margin-top: 10px;
+
+  font-size: 0.9rem;
+
+  color: #64748b;
+}
+
+body.dark .upload-hint {
+
+  color: #94a3b8;
+}
+
+.analytics-modal {
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  width: 90%;
+
+  max-width: 900px;
+
+  max-height: 85vh;
+
+  overflow-y: auto;
+}
+
+.analytics-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+.analytics-card {
+
+  padding: 20px;
+
+  border-radius: 14px;
+
+  border: 1px solid #e5e7eb;
+
+  text-align: center;
+}
+
+.analytics-card h3 {
+
+  font-size: 0.95rem;
+
+  margin-bottom: 10px;
+}
+
+.analytics-card p {
+
+  font-size: 1.8rem;
+
+  font-weight: 700;
+
+  margin: 0;
+}
+
+.analytics-footer {
+
+  margin-top: 25px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+body.dark
+.analytics-modal {
+
+  background: #1e293b;
+}
+
+body.dark
+.analytics-card {
+
+  border-color:
+    rgba(
+      255,
+      255,
+      255,
+      0.1
+    );
 }

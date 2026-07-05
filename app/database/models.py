@@ -69,3 +69,37 @@ class Document(Base):
         DateTime,
         default=datetime.utcnow
     )
+
+class UserSettings(Base):
+
+    __tablename__ = "user_settings"
+
+    id = Column(
+        Integer,
+        primary_key=True
+    )
+
+    theme = Column(
+        String,
+        default="light"
+    )
+
+    default_quiz_difficulty = Column(
+        String,
+        default="medium"
+    )
+
+    default_quiz_count = Column(
+        Integer,
+        default=10
+    )
+
+    default_exam_difficulty = Column(
+        String,
+        default="medium"
+    )
+
+    export_watermark = Column(
+        Boolean,
+        default=True
+    )
