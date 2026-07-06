@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import logo from "../assets/logo.png";
+
 import UploadPanel from "../components/UploadPanel";
 import ToolsPanel from "../components/ToolsPanel";
 import ChatPanel from "../components/ChatPanel";
@@ -93,7 +95,7 @@ function Dashboard({
         </div>
 
         <img
-          src="src/assets/logo.png"
+          src={logo}
           alt="StudyMate"
           className="hero-logo"
         />
