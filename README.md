@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend\src\assets\banner.png" alt="StudyMate Banner" width="100%">
+  <img src="frontend\src\assets\banner.png" alt="StudyMate Banner" width="60%">
 </p>
 
 # 📚 StudyMate
@@ -266,4 +266,4 @@ Feel free to use, modify, and distribute this project in accordance with the lic
 
 ---
 
-**StudyMate — Learn Smarter with AI. 🚀**
+**StudyMate — Your Docs, Unlocked. 🚀**
