@@ -4,6 +4,13 @@
 
 # 📚 StudyMate
 
+![React](https://img.shields.io/badge/Frontend-React-blue)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-green)
+![OpenRouter](https://img.shields.io/badge/AI-OpenRouter-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
+---
+
 StudyMate is a modern AI-powered study assistant designed to help students learn faster and more effectively. Upload your study materials and instantly generate summaries, flashcards, quizzes, exams, study guides, revision notes, and AI-powered document conversations.
 
 Built with a modern full-stack architecture using React, FastAPI, SQLite, and OpenRouter AI models.
