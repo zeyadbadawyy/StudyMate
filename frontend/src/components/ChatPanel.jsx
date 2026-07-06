@@ -233,6 +233,14 @@ function ChatPanel() {
           question.length
         } / 500
       </p>
+      
+      {loading && (
+        <div
+          className="thinking"
+        >
+          Thinking...
+        </div>
+      )}
 
       <button
         onClick={
@@ -246,13 +254,6 @@ function ChatPanel() {
         Send
       </button>
 
-      {loading && (
-        <div
-          className="thinking"
-        >
-          Thinking...
-        </div>
-      )}
     </div>
   );
 }

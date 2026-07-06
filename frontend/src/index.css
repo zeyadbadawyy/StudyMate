@@ -323,6 +323,32 @@ summary:hover {
 }
 
 .loader {
+  margin-top: 20px;
+
+  font-weight: 600;
+
+  background:
+    linear-gradient(
+      90deg,
+      #9ca3af,
+      #ea580c,
+      #9ca3af
+    );
+
+  background-size:
+    200% auto;
+
+  color: transparent;
+
+  background-clip: text;
+
+  -webkit-background-clip: text;
+
+  animation:
+    thinkingFlow 2s linear infinite;
+}
+
+/* .loader {
 
   width: 28px;
 
@@ -337,7 +363,7 @@ summary:hover {
   animation: spin 1s linear infinite;
 
   margin-top: 10px;
-}
+} */
 
 @keyframes spin {
   to {
@@ -346,6 +372,8 @@ summary:hover {
 }
 
 .thinking {
+
+  margin-bottom: 20px;
 
   font-weight: 600;
 
@@ -482,7 +510,7 @@ body.dark .section,
 body.dark .hero,
 body.dark .history-card {
 
-  background: #1f2937;
+  background: #202e41;
 
   color: #f8fafc;
 

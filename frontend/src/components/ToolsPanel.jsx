@@ -434,7 +434,11 @@ function ToolsPanel() {
       </button>
 
       {loading && (
-        <div className="loader"></div>
+        <div
+          className="loader"
+        >
+          Generating...
+        </div>
       )}
 
       {result && (
